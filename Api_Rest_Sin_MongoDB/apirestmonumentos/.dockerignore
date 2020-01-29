@@ -1,0 +1,3 @@
+# Hacemos que los logs y las dependencias no se copien a la imagen
+node_modules
+npm-debug.log
