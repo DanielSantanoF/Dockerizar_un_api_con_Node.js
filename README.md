@@ -14,7 +14,7 @@ En este caso vamos a dockerizar un api rest sobre monumentos la cual tiene imple
 Va a ser necesario generar el Dockerfile y el .dockerignore necesarios para poder generar la imagen de Docker ambos archivos generados en la raiz del proyecto
 
 El Dockerfile a generar quedara de la siguiente manera:
-```
+```Dockerfile
 FROM node:10
 
 WORKDIR /usr/src/app
@@ -69,3 +69,69 @@ Una vez obtenida la url de tu base de datos deberas añadirla al archivo .env y 
 * Generar el .dockerignore
 * Crear la imagen de Docker
 * Crear el contenedor de Docker
+
+## Dockerizar un api rest Node.js con MongoDB Usando Docker-compose.yml y contenedor con Mongodb
+En este caso usaremos un Dockerfile y un docker-compose.yml desde el cual crearemos el contenedor de base de datos de mongo que usaremos como base de datos del api
+
+```Dockerfile
+FROM node:10
+
+LABEL "sts.salesianostriana.dam"="SALESIANOS TRIANA SAN PEDRO 2DAM"
+LABEL maintainer="danielsantanof99@gmail.com"
+LABEL version="1.0"
+
+
+RUN mkdir -p /opt/app
+
+WORKDIR /opt/app
+
+COPY package*.json ./
+RUN npm install --quiet
+
+RUN npm install nodemon -g --quiet
+
+COPY . .
+
+EXPOSE 3000
+
+CMD nodemon -L --watch . app.js
+```
+
+Una vez generado el Dockerfile para la creación de la imagen de Node.js procederemos a crear el docker-compose.yml para generar los dos contenedores y tener nuestra api de Node.js funcional usando un contenedor que va a ser su base de datos con mongodb
+
+```
+version: '2'
+services:
+    web:
+        build: .
+        depends_on:
+            - db
+        ports:
+            - "9000:3000"
+        environment: 
+            - MONGODB_URI=mongodb://db:27017/trianaweather
+        volumes: 
+            - .:/opt/app
+            - /opt/app/node_modules
+    db:
+        image: mongo
+        expose: 
+            - "27017"
+        volumes: 
+            - mongodata:/data/db
+
+volumes: 
+    mongodata:
+```
+
+A continuacion haremos un docker-compose build para comprobar que la creación de Docker funciona como se espera
+```
+docker-compose build
+```
+
+Una vez comprobado que todo funciona generaremos los contenedores para tener nuestra api rest funcionando con el comando
+```
+docker-compose up -d
+```
+
+Tras generar los contenedores podremos hacer uso de nuestra api rest en la ruta `localhost:9000` en este caso debido a que ese es el puerto que hemos indicado en el docker-compose.yml 
