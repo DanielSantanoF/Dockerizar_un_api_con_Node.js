@@ -70,6 +70,9 @@ Una vez obtenida la url de tu base de datos deberas añadirla al archivo .env y 
 * Crear la imagen de Docker
 * Crear el contenedor de Docker
 
+***
+
+
 ## Dockerizar un api rest Node.js con MongoDB Usando Docker-compose.yml y contenedor con Mongodb
 En este caso usaremos un Dockerfile y un docker-compose.yml desde el cual crearemos el contenedor de base de datos de mongo que usaremos como base de datos del api
 
@@ -94,7 +97,7 @@ COPY . .
 
 EXPOSE 3000
 
-CMD nodemon -L --watch . app.js
+CMD [ "node", "./bin/www" ]
 ```
 
 Una vez generado el Dockerfile para la creación de la imagen de Node.js procederemos a crear el docker-compose.yml para generar los dos contenedores y tener nuestra api de Node.js funcional usando un contenedor que va a ser su base de datos con mongodb
@@ -104,6 +107,7 @@ version: '2'
 services:
     web:
         build: .
+        command: npm run start-dev
         depends_on:
             - db
         ports:

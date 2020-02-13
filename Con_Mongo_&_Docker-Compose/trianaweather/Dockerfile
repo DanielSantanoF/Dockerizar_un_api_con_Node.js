@@ -32,5 +32,5 @@ COPY . .
 EXPOSE 3000
 
 # Inicia la aplicación al iniciar al contenedor
-CMD nodemon -L --watch . app.js
-# CMD [ "node", "./bin/www" ]
+# CMD nodemon -L --watch . app.js
+CMD [ "node", "./bin/www" ]
