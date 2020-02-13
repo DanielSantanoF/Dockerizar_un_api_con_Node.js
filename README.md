@@ -59,6 +59,8 @@ El proceso es el mismo solo varia el hecho de que al usar mongo deberemos tener 
 
 En el caso del api con Mongo para este ejercicio voy a usar una base de datos remota por lo que sera necesario indicar en las Variables de entorno necesarias en un archivo .env para el Api Rest la url de la base de datos
 
+La insercion de datos de ejemplo se encuentra en el app.js la linea `require('./example_data');` si se comenta esta linea se deshabilita la insercion de datos de ejemplo
+
 Se podria usar un servicio como:
 
 * [mLab](https://mlab.com/)
@@ -75,6 +77,8 @@ Una vez obtenida la url de tu base de datos deberas añadirla al archivo .env y 
 
 ## Dockerizar un api rest Node.js con MongoDB Usando Docker-compose.yml y contenedor con Mongodb
 En este caso usaremos un Dockerfile y un docker-compose.yml desde el cual crearemos el contenedor de base de datos de mongo que usaremos como base de datos del api
+
+La insercion de datos de ejemplo se encuentra en el app.js la linea `require('./example_data');` si se comenta esta linea se deshabilita la insercion de datos de ejemplo
 
 ```Dockerfile
 FROM node:10
